@@ -18,10 +18,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 
 from core.views import index
+from places.views import placeholder_view
 
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
+    path('places/', placeholder_view)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
