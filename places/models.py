@@ -1,5 +1,13 @@
 from django.db import models
 
+from core.utils import slugify
+
+
+def concrete_place_directory(instance, filename):
+    directory_name = slugify(instance.for_place.title)
+    return f'{directory_name}/{filename}'
+
+
 class Place(models.Model):
     """
     Модель интересного места на карте
@@ -33,3 +41,16 @@ class MapPoint(models.Model):
         return f'({self.longitude}, {self.latitude})'
 
 
+class Photo(models.Model):
+    """Модель фотографии интересного места"""
+    image = models.ImageField('Загрузка картинки', upload_to=concrete_place_directory)
+    ordering_position = models.SmallIntegerField('Позиция')
+    for_place = models.ForeignKey(Place, verbose_name='место', related_name='photos', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = [['for_place', 'ordering_position']]
+        verbose_name = 'Фото'
+        verbose_name_plural = 'Фото'
+
+    def __str__(self):
+        return f'Фото (ID {self.pk})'
