@@ -1,7 +1,7 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 
 # Create your views here.
 
-def placeholder_view(request):
-    return HttpResponse('<h1> places </h1>')
+def index(request):
+    return render(request, template_name='places/index.html')

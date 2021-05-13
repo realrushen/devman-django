@@ -4,13 +4,11 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 
-from core.views import index
-from places.views import placeholder_view
+from places.views import index
 
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
-    path('places/', placeholder_view)
 ]
 
 if settings.DEBUG:

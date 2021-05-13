@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.utils import slugify
+from places.utils import slugify
 
 
 def concrete_place_directory(instance, filename):
