@@ -1,7 +1,5 @@
-from copy import copy
-from pprint import pprint
-
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from places.models import Place
@@ -58,3 +56,6 @@ def index(request):
     return render(request, context={'geo_data': geo_json_points}, template_name='places/index.html')
 
 
+def place_view(request, id):
+    place = get_object_or_404(Place, pk=id)
+    return HttpResponse(place.title)
