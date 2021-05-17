@@ -46,11 +46,11 @@ class MapPoint(models.Model):
 class Photo(models.Model):
     """Модель фотографии интересного места"""
     image = models.ImageField('Загрузка картинки', upload_to=concrete_place_directory)
-    ordering_position = models.SmallIntegerField('Позиция')
+    ordering_position = models.PositiveSmallIntegerField('Позиция')
     for_place = models.ForeignKey(Place, verbose_name='место', related_name='photos', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['for_place', 'ordering_position']]
+        ordering = ['ordering_position']
         verbose_name = 'Фото'
         verbose_name_plural = 'Фото'
 

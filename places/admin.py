@@ -1,3 +1,4 @@
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 
 from places.models import Place, MapPoint, Photo
@@ -8,11 +9,10 @@ class PlaceInline(admin.StackedInline):
     extra = 1
 
 
-class PhotoInline(admin.TabularInline):
+class PhotoInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Photo
     extra = 2
-    fields = ['image', 'preview_image', 'ordering_position']
-
+    fields = ['ordering_position', 'image', 'preview_image', ]
     readonly_fields = ['preview_image']
 
 
@@ -30,8 +30,3 @@ class MapPointAdmin(admin.ModelAdmin):
         PlaceInline
     ]
 
-
-@admin.register(Photo)
-class PhotoAdmin(admin.ModelAdmin):
-    list_display = ['for_place', 'preview_image', 'image']
-    readonly_fields = ['preview_image']

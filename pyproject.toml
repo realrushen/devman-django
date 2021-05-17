@@ -8,6 +8,7 @@ authors = ["Aleksandr Karakchiev <realrushen@gmail.com>"]
 python = "^3.8.5"
 Django = "^3.2.3"
 Pillow = "^8.2.0"
+django-admin-sortable2 = "^1.0"
 
 [tool.poetry.dev-dependencies]
 
