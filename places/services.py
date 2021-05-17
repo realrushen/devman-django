@@ -1,6 +1,8 @@
 from copy import deepcopy
 from itertools import cycle
 
+from django.urls import reverse
+
 GEO_JSON_POINT_FEATURE_TEMPLATE = {
     'type': 'Feature',
     'geometry': {
@@ -18,13 +20,13 @@ details_url_mock = cycle(('./static/places/moscow_legends.json', './static/place
 
 def generate_point_feature(longitude, latitude, properties: dict):
     feature = deepcopy(GEO_JSON_POINT_FEATURE_TEMPLATE)
-
+    place_id = properties.get('placeId')
     feature['geometry']['coordinates'].append(longitude)
     feature['geometry']['coordinates'].append(latitude)
 
     feature['properties']['title'] = properties.get('title')
-    feature['properties']['placeId'] = properties.get('placeId')
-    feature['properties']['detailsUrl'] = next(details_url_mock)
+    feature['properties']['placeId'] = place_id
+    feature['properties']['detailsUrl'] = reverse('place-detail', args=[place_id])
 
     return feature
 
