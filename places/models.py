@@ -57,8 +57,8 @@ class Photo(models.Model):
     def __str__(self):
         return f'Фото (ID {self.pk})'
 
-
     def preview_image(self):
+        """Custom method to display Image in admin panel"""
         return format_html('<img src="{url}" height=150 />',
                            url=mark_safe(self.image.url))
 
