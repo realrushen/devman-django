@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from places.utils import slugify
 
@@ -23,7 +25,7 @@ class Place(models.Model):
         verbose_name_plural = 'Интересные места'
 
     def __str__(self):
-        return f'{self.title} {self.coordinates}'
+        return f'{self.title}'
 
 
 class MapPoint(models.Model):
@@ -54,3 +56,10 @@ class Photo(models.Model):
 
     def __str__(self):
         return f'Фото (ID {self.pk})'
+
+
+    def preview_image(self):
+        return format_html('<img src="{url}" height=150 />',
+                           url=mark_safe(self.image.url))
+
+    preview_image.short_description = 'Фото'
