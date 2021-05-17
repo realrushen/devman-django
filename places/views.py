@@ -1,7 +1,6 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
-# Create your views here.
 from places.models import Place
 from places.services import generate_point_feature, get_geo_json_template, add_feature_to_geo_json
 
@@ -56,6 +55,16 @@ def index(request):
     return render(request, context={'geo_data': geo_json_points}, template_name='places/index.html')
 
 
-def place_view(request, id):
+def place_view(request, id: int):
     place = get_object_or_404(Place, pk=id)
-    return HttpResponse(place.title)
+    response = {
+        'title': place.title,
+        'imgs': [photo.image.url for photo in place.photos.all()],
+        'description_short': place.description_short,
+        'description_long': place.description_long,
+        'coordinates': {
+            'lat': place.coordinates.latitude,
+            'lng': place.coordinates.longitude
+        }
+    }
+    return JsonResponse(data=response, json_dumps_params={'indent': 4, 'ensure_ascii': False})
