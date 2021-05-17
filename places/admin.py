@@ -8,13 +8,17 @@ class PlaceInline(admin.StackedInline):
     extra = 1
 
 
-class PhotoInline(admin.StackedInline):
+class PhotoInline(admin.TabularInline):
     model = Photo
     extra = 2
+    fields = ['image', 'preview_image', 'ordering_position']
+
+    readonly_fields = ['preview_image']
 
 
 @admin.register(Place)
 class PlaceAdmin(admin.ModelAdmin):
+    list_display = ['title', 'coordinates']
     inlines = [
         PhotoInline
     ]
@@ -29,4 +33,5 @@ class MapPointAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['for_place', 'preview_image', 'image']
+    readonly_fields = ['preview_image']
