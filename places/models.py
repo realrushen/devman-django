@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from places.utils import slugify
-
+from tinymce import models as tinymce_models
 
 def concrete_place_directory(instance, filename):
     directory_name = slugify(instance.for_place.title)
@@ -16,7 +16,7 @@ class Place(models.Model):
     """
     title = models.CharField('Название места', max_length=50, db_index=True)
     description_short = models.CharField('Короткое описание', max_length=255)
-    description_long = models.TextField('Подробное описание')
+    description_long = tinymce_models.HTMLField('Подробное описание')
     coordinates = models.ForeignKey('MapPoint', related_name='places', on_delete=models.PROTECT,
                                     verbose_name='координаты места')
 
