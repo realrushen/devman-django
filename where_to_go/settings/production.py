@@ -3,11 +3,11 @@ import environs
 from where_to_go.settings.common import *
 
 env = environs.Env()
-env.read_env()
+env.read_env(str(BASE_DIR / '.env'))
 
 SECRET_KEY = env.str('SECRET_KEY')
 
-DEBUG = env.bool("DEBUG")
+DEBUG = False
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
