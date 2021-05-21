@@ -6,6 +6,9 @@ SECRET_KEY = 'django-insecure-9bu(j)x@32x&e&0(gq*eto^=(+fqa%ith+se#1k40#%^)t&l5c
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
+STATICFILES_DIRS.append(os.path.join(BASE_DIR, "static"))
+STATICFILES_DIRS.append(os.path.join(BASE_DIR, "media"))
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
