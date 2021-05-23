@@ -26,7 +26,15 @@ class PlaceAdmin(admin.ModelAdmin):
 
 @admin.register(MapPoint)
 class MapPointAdmin(admin.ModelAdmin):
+    list_display = ['longitude', 'latitude', 'places_display']
     inlines = [
         PlaceInline
     ]
+
+    def places_display(self, obj):
+        return ", ".join([
+            place.title for place in obj.places.all()
+        ])
+
+    places_display.short_description = "Места"
 

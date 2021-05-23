@@ -1,5 +1,4 @@
 from copy import deepcopy
-from itertools import cycle
 
 from django.urls import reverse
 
@@ -15,7 +14,6 @@ GEO_JSON_TEMPLATE = {
     'type': 'FeatureCollection',
     'features': []
 }
-details_url_mock = cycle(('./static/places/moscow_legends.json', './static/places/roofs24.json'))
 
 
 def generate_point_feature(longitude, latitude, properties: dict):
