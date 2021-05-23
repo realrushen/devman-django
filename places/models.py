@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from tinymce import models as tinymce_models
 
 from places.utils import slugify
-from tinymce import models as tinymce_models
+
 
 def concrete_place_directory(instance, filename):
     directory_name = slugify(instance.for_place.title)
