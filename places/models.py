@@ -7,19 +7,19 @@ from places.utils import slugify
 
 
 def concrete_place_directory(instance, filename):
-    directory_name = slugify(instance.for_place.title)
+    directory_name = instance.for_place.upload_dir
     return f'{directory_name}/{filename}'
 
 
 class Place(models.Model):
-    """
-    Модель интересного места на карте
-    """
+    """Interesting place on map model"""
+
     title = models.CharField('Название места', max_length=50, db_index=True)
-    description_short = models.CharField('Короткое описание', max_length=255)
+    description_short = models.CharField('Короткое описание', max_length=500)
     description_long = tinymce_models.HTMLField('Подробное описание')
     coordinates = models.ForeignKey('MapPoint', related_name='places', on_delete=models.PROTECT,
                                     verbose_name='координаты места')
+    slug = models.CharField(max_length=100, editable=False, null=True, default=None)
 
     class Meta:
         verbose_name = 'Интересное место'
@@ -28,9 +28,17 @@ class Place(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    @property
+    def upload_dir(self):
+        if not self.slug:
+            dir_name = slugify(self.title)
+            self.slug = dir_name
+            self.save(update_fields=('slug',))
+        return self.slug
+
 
 class MapPoint(models.Model):
-    """Модель координат точки на карте"""
+    """Model of place coordinates on map"""
     longitude = models.DecimalField('Долгота', max_digits=16, decimal_places=14)
     latitude = models.DecimalField('Широта', max_digits=16, decimal_places=14)
 
@@ -45,7 +53,7 @@ class MapPoint(models.Model):
 
 
 class Photo(models.Model):
-    """Модель фотографии интересного места"""
+    """Photo of interesting place"""
     image = models.ImageField('Загрузка картинки', upload_to=concrete_place_directory)
     ordering_position = models.PositiveSmallIntegerField('Позиция')
     for_place = models.ForeignKey(Place, verbose_name='место', related_name='photos', on_delete=models.CASCADE)
