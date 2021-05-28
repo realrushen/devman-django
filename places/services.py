@@ -1,37 +1,49 @@
-from copy import deepcopy
+from decimal import Decimal
+from typing import List, Tuple
 
-from django.urls import reverse
-
-GEO_JSON_POINT_FEATURE_TEMPLATE = {
-    'type': 'Feature',
-    'geometry': {
-        'type': 'Point',
-        'coordinates': []
-    },
-    'properties': {}
-}
-GEO_JSON_TEMPLATE = {
-    'type': 'FeatureCollection',
-    'features': []
-}
+from pydantic import BaseModel
 
 
-def generate_point_feature(longitude, latitude, properties: dict):
-    feature = deepcopy(GEO_JSON_POINT_FEATURE_TEMPLATE)
-    place_id = properties.get('placeId')
-    feature['geometry']['coordinates'].append(longitude)
-    feature['geometry']['coordinates'].append(latitude)
+class Point(BaseModel):
+    type = 'Point'
+    coordinates: Tuple[Decimal, Decimal]
 
-    feature['properties']['title'] = properties.get('title')
-    feature['properties']['placeId'] = place_id
-    feature['properties']['detailsUrl'] = reverse('place-detail', args=[place_id])
 
+class Properties(BaseModel):
+    title: str
+    place_id: int
+    details_url: str
+
+    class Config:
+        fields = {
+            'place_id': 'placeId',
+            'details_url': 'detailsUrl'
+        }
+        allow_population_by_field_name = True
+
+
+class Feature(BaseModel):
+    type = 'Feature'
+    geometry: Point
+    properties: Properties
+
+
+class FeatureCollection(BaseModel):
+    type = 'FeatureCollection'
+    features: List[Feature] = []
+
+
+def generate_point_feature(longitude: Decimal, latitude: Decimal, properties: dict):
+    """Returning feature in GeoJSON format"""
+    point = Point(coordinates=(longitude, latitude))
+    point_properties = Properties(
+        title=properties.get('title'),
+        place_id=properties.get('placeId'),
+        details_url=properties.get('detailsUrl'),
+    )
+    feature = Feature(geometry=point, properties=point_properties)
     return feature
 
 
-def get_geo_json_template():
-    return deepcopy(GEO_JSON_TEMPLATE)
-
-
-def add_feature_to_geo_json(geo_json, feature):
-    geo_json['features'].append(feature)
+def get_empty_feature_collection():
+    return FeatureCollection()
