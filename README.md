@@ -88,7 +88,7 @@ python3 manage.py runserver
 2. С помошью кастомной менеджмент команды Django `python3 manage.py load_place`.
 Подробная информация: `python3 manage.py load_place -h`
 
-[Структура данных для автоматической загрузки](.gitbook/data/exaple.json)
+[Структура данных для автоматической загрузки](https://github.com/realrushen/devman-django/blob/master/.gitbook/data/example.json)
 
 ## Лицензирование и авторские права
 
