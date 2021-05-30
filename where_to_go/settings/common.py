@@ -107,9 +107,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-
-]
+STATICFILES_DIRS = []
 # User uploaded content settings
 
 MEDIA_URL = '/media/'
