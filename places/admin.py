@@ -22,6 +22,7 @@ class PlaceAdmin(admin.ModelAdmin):
     inlines = [
         PhotoInline
     ]
+    search_fields = ['title']
 
 
 @admin.register(MapPoint)
