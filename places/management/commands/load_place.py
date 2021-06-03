@@ -47,15 +47,16 @@ class Command(BaseCommand):
         for position, photo_url in enumerate(photos, start=1):
             photo_filename = self._extract_filename_from_url(photo_url)
             photo, created = Photo.objects.get_or_create(for_place=place, ordering_position=position)
-            if created:
-                response = requests.get(photo_url)
-                if response.status_code == requests.codes.OK:
-                    photo_content = BytesIO(response.content)
-                    photo.image.save(photo_filename, photo_content, save=True)
-                else:
-                    self.stderr.write(f'Failed to load {photo_url} HTTP_RESPONSE_CODE: {response.status_code}')
-            else:
+            if not created:
                 skipped += 1
+                continue
+            response = requests.get(photo_url)
+            if response.status_code == requests.codes.OK:
+                photo_content = BytesIO(response.content)
+                photo.image.save(photo_filename, photo_content, save=True)
+            else:
+                self.stderr.write(f'Failed to load {photo_url} HTTP_RESPONSE_CODE: {response.status_code}')
+
         else:
             photos_loaded = position - skipped
             self.stdout.write(
