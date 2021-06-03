@@ -14,14 +14,25 @@ def generate_place_directory(instance, filename):
 class Place(models.Model):
     """Interesting place on map model"""
 
-    title = models.CharField('Название места', max_length=50, db_index=True)
-    description_short = models.TextField('Короткое описание')
-    description_long = tinymce_models.HTMLField('Подробное описание')
+    title = models.CharField(
+        'Название места',
+        max_length=50,
+        db_index=True
+    )
+    description_short = models.TextField(
+        'Короткое описание',
+        blank=True
+    )
+    description_long = tinymce_models.HTMLField(
+        'Подробное описание',
+        blank=True
+    )
     coordinates = models.ForeignKey(
         'MapPoint',
         related_name='places',
         on_delete=models.PROTECT,
-        verbose_name='координаты места', db_index=True
+        verbose_name='координаты места',
+        db_index=True
     )
     slug = models.CharField(
         max_length=100,
