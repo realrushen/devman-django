@@ -84,7 +84,7 @@ python3 manage.py runserver
 
 ## Наполнение сайта данными
 Предусмотренно два способа загрузки данных в проект:
-1. В ручном режиме зерез [админ панель](https://rushen.pythonanywhere.com/admin/)
+1. В ручном режиме через [админ панель](https://rushen.pythonanywhere.com/admin/)
 2. С помошью кастомной менеджмент команды Django `python3 manage.py load_place`.
 Подробная информация: `python3 manage.py load_place -h`
 
