@@ -23,6 +23,7 @@ class PlaceAdmin(admin.ModelAdmin):
         PhotoInline
     ]
     search_fields = ['title']
+    raw_id_fields = ['coordinates']
 
 
 @admin.register(MapPoint)
