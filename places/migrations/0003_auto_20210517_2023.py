@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='photo',
             name='image',
-            field=models.ImageField(upload_to=places.models.concrete_place_directory, verbose_name='Загрузка картинки'),
+            field=models.ImageField(upload_to=places.models.generate_place_directory, verbose_name='Загрузка картинки'),
         ),
         migrations.AlterField(
             model_name='photo',
