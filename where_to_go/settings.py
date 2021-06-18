@@ -11,9 +11,21 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from pprint import pprint
+
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = Env()
+env.read_env(path=BASE_DIR / '.env')
+
+DEBUG = env.bool('DEBUG')
+
+SECRET_KEY = env.str('SECRET_KEY')
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -57,7 +69,7 @@ ROOT_URLCONF = 'where_to_go.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +119,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = []
+STATIC_ROOT = env.path('STATIC_ROOT')
+STATICFILES_DIRS = env.list('STATICFILES_DIRS')
+
 # User uploaded content settings
 
 MEDIA_URL = '/media/'
@@ -133,3 +147,15 @@ TINYMCE_DEFAULT_CONFIG = {
                "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
+# Security
+
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
+
+# HTTP Strict Transport Security settings
+
+SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
+SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
