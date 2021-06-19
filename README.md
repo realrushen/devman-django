@@ -31,13 +31,10 @@ python3 -m venv .venv && source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-* Задать настройки приложения из переменных окружения
-```shell script
-# может быть любой рандомно сгенерированной строкой
-export SECRET_KEY='django-insecure-9bu(j)x@32x&e&0(gq*eto^=(+fqa%ith+se#1k40#%^)t&l5c'
-# путь к настройкам для разработки
-export DJANGO_SETTINGS_MODULE='where_to_go.settings.development'
-```
+* Задать настройки приложения из переменных окружения. Пример настроек для
+ разработки локально можно найти [тут](https://github.com/realrushen/devman-django/.env.example).
+ Поддерживается .env файл, который нужно разместить в корне репозитория.
+
 * Применить миграции бызы данных
 ```shell script
 python3 manage.py migrate
@@ -63,13 +60,9 @@ git clone https://github.com/realrushen/devman-django.git && cd ./devman-django
 poetry install
 ```
 
-* Задать настройки приложения из переменных окружения
-```shell script
-# может быть любой рандомно сгенерированной строкой
-export SECRET_KEY='django-insecure-9bu(j)x@32x&e&0(gq*eto^=(+fqa%ith+se#1k40#%^)t&l5c'
-# путь к настройкам для разработки
-export DJANGO_SETTINGS_MODULE='where_to_go.settings.development'
-```
+* Задать настройки приложения из переменных окружения. Пример настроек для
+ разработки локально можно найти [тут](https://github.com/realrushen/devman-django/blob/master/.env.example).
+ Поддерживается .env файл, который нужно разместить в корне репозитория.
 
 * Применить миграции бызы данных
 ```shell script
@@ -93,4 +86,3 @@ python3 manage.py runserver
 ## Лицензирование и авторские права
 
 Данные взяты с https://kudago.com/
-
