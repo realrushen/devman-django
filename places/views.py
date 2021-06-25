@@ -27,9 +27,9 @@ def index(request):
     return render(request, context={'geo_data': geo_json_points.dict(by_alias=True)}, template_name='places/index.html')
 
 
-def place_view(request, id: int):
+def place_view(request, pk: int):
     """place detail view"""
-    place = get_object_or_404(Place.objects.select_related('coordinates'), pk=id)
+    place = get_object_or_404(Place.objects.select_related('coordinates'), pk=pk)
     response = {
         'title': place.title,
         'imgs': [photo.image.url for photo in place.photos.all()],
