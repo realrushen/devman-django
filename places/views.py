@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from places.models import Place
-from places.services import generate_point_feature, get_empty_feature_collection
+from places.geojson import generate_point_feature, get_empty_feature_collection
 
 
 def index(request):
