@@ -90,8 +90,7 @@ class Photo(models.Model):
     )
     ordering_position = models.PositiveSmallIntegerField(
         'Позиция',
-        blank=True,
-        null=False
+        blank=True
     )
     for_place = models.ForeignKey(
         Place,
