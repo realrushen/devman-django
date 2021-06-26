@@ -38,8 +38,7 @@ class Place(models.Model):
         max_length=100,
         editable=False,
         blank=True,
-        null=True,
-        default=None,
+        default='',
         unique=True
     )
 
