@@ -20,11 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
 env.read_env(path=BASE_DIR / ".env")
 
-DEBUG = env.bool("DEBUG")
+DEBUG = env.bool("DEBUG", default=True)
 
-SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY", default='django-insecure-9bu(j)x@32x&e&0(gq*eto^=(+fqa%ith+se#1k40#%^)t&l5c')
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
