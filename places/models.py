@@ -34,7 +34,7 @@ class Place(models.Model):
         verbose_name='координаты места',
         db_index=True
     )
-    slug = models.CharField(
+    private_field_to_store_upload_dir_name = models.CharField(
         max_length=100,
         editable=False,
         blank=True,
@@ -51,11 +51,11 @@ class Place(models.Model):
 
     @property
     def upload_dir(self):
-        if not self.slug:
+        if not self.private_field_to_store_upload_dir_name:
             dir_name = slugify(self.title)
-            self.slug = dir_name
-            self.save(update_fields=('slug',))
-        return self.slug
+            self.private_field_to_store_upload_dir_name = dir_name
+            self.save(update_fields=('private_field_to_store_upload_dir_name',))
+        return self.private_field_to_store_upload_dir_name
 
 
 class MapPoint(models.Model):
