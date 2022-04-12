@@ -115,8 +115,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = env.path("STATIC_ROOT")
-STATICFILES_DIRS = env.list("STATICFILES_DIRS")
+STATIC_ROOT = env.path("STATIC_ROOT", default=os.path.join(BASE_DIR, 'staticfiles'))
+STATICFILES_DIRS = env.list("STATICFILES_DIRS", default=(os.path.join(BASE_DIR, 'static')),)
 
 # User uploaded content settings
 
@@ -146,12 +146,12 @@ TINYMCE_DEFAULT_CONFIG = {
 
 # Security
 
-CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE")
-SESSION_COOKIE_SECURE = env.bool("SESSION_COOKIE_SECURE")
+CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE", default=False)
+SESSION_COOKIE_SECURE = env.bool("SESSION_COOKIE_SECURE", default=False)
 
 # HTTP Strict Transport Security settings
 
-SECURE_HSTS_SECONDS = env.int("SECURE_HSTS_SECONDS")
-SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("SECURE_HSTS_INCLUDE_SUBDOMAINS")
-SECURE_HSTS_PRELOAD = env.bool("SECURE_HSTS_PRELOAD")
-SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT")
+SECURE_HSTS_SECONDS = env.int("SECURE_HSTS_SECONDS", default=0)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False)
+SECURE_HSTS_PRELOAD = env.bool("SECURE_HSTS_PRELOAD", default=False)
+SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=False)
