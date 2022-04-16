@@ -31,7 +31,7 @@ class Command(BaseCommand):
         self._load_places(urls)
 
     def _validate_urls(self, input: List[str], validator: URLValidator):
-        """Chaks if input is valid urls"""
+        """Checks if input is valid urls"""
         errors = []
         for url in input:
             try:
@@ -51,7 +51,7 @@ class Command(BaseCommand):
                 skipped += 1
                 continue
             response = requests.get(photo_url)
-            if response.status_code == requests.codes.OK:
+            if response.ok:
                 photo_content = BytesIO(response.content)
                 photo.image.save(photo_filename, photo_content, save=True)
             else:
@@ -67,15 +67,15 @@ class Command(BaseCommand):
         for url in urls:
             self.stdout.write(self.style.SQL_KEYWORD(f'Starting loading {url}'))
             response = requests.get(url)
-            if response.status_code == requests.codes.OK:
-                place_data: dict = response.json()
-                photos = place_data.pop('imgs')
-                coordinates = place_data.pop('coordinates')
+            if response.ok:
+                raw_place: dict = response.json()
+                photos = raw_place.pop('imgs')
+                coordinates = raw_place.pop('coordinates')
                 point, created = MapPoint.objects.get_or_create(latitude=coordinates['lat'],
                                                                 longitude=coordinates['lng'])
                 if not created:
                     self.stdout.write(self.style.MIGRATE_HEADING(f'Point: {point} already exists'))
-                place, created = Place.objects.get_or_create(coordinates=point, **place_data)
+                place, created = Place.objects.get_or_create(coordinates=point, **raw_place)
                 if not created:
                     self.stdout.write(self.style.MIGRATE_HEADING(f'Place: {place} already exists'))
                 self._load_photos(place, photos)
