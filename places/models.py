@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from tinymce import models as tinymce_models
 
-from places.utils import slugify
+from places.translit import slugify
 
 
 def generate_place_directory(instance, filename):
