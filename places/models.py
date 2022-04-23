@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, IntegrityError, transaction
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from tinymce import models as tinymce_models
@@ -55,7 +55,13 @@ class Place(models.Model):
         if not self._upload_dir:
             dir_name = slugify(self.title)
             self._upload_dir = dir_name
-            self.save(update_fields=('_upload_dir',))
+            try:
+                with transaction.atomic():
+                    self.save(update_fields=('_upload_dir',))
+            # modify name of upload_dir if it already exists
+            except IntegrityError:
+                self._upload_dir = f'{dir_name}_{self.coordinates}'
+                self.save(update_fields=('_upload_dir',))
         return self._upload_dir
 
 
