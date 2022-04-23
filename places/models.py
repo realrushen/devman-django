@@ -45,6 +45,7 @@ class Place(models.Model):
     class Meta:
         verbose_name = 'Интересное место'
         verbose_name_plural = 'Интересные места'
+        unique_together = [['title', 'coordinates']]
 
     def __str__(self):
         return f'{self.title}'
