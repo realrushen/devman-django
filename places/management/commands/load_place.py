@@ -67,9 +67,11 @@ class Command(BaseCommand):
         for url in urls:
             self.stdout.write(self.style.SQL_KEYWORD(f'Starting loading {url}'))
             response = requests.get(url)
+
             if not response.ok:
                 self.stderr.write(f'Failed to load {url} HTTP_RESPONSE_CODE: {response.status_code}')
                 continue
+
             raw_place: dict = response.json()
             photos = raw_place.pop('imgs')
             coordinates = raw_place.pop('coordinates')
@@ -77,7 +79,11 @@ class Command(BaseCommand):
                                                             longitude=coordinates['lng'])
             if not created:
                 self.stdout.write(self.style.MIGRATE_HEADING(f'Point: {point} already exists'))
-            place, created = Place.objects.get_or_create(coordinates=point, **raw_place)
+
+            raw_place_title = raw_place.pop('title')
+            place, created = Place.objects.get_or_create(coordinates=point, title=raw_place_title,
+                                                         defaults={**raw_place})
+
             if not created:
                 self.stdout.write(self.style.MIGRATE_HEADING(f'Place: {place} already exists'))
             self._load_photos(place, photos)
